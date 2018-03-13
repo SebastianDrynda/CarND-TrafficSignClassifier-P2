@@ -11,11 +11,7 @@ The goals / steps of this project are the following:
 * Analyze the softmax probabilities of the new images
 * Summarize the results with a written report
 
-
-
-
-
-## Data Set Summary & Exploration
+## **Data Set Summary & Exploration**
 
 ### Step 1: Dataset Summary & Exploration
 
@@ -49,57 +45,70 @@ Visualizations random set of images from the test set
 
 In general, neural networks results in higher accuracy classification with grayscale images than with RGB images. Further neural networks work better if the input (feature) distributions have mean zero. A suggested way to have that normalization was to operate on each pixel by applying: `(pixel - 128)/128.`
 
-Therefore I decided to use the following techniques for the preprocessing step:
+Therefore I decided to use the following techniques for preprocessing:
 
 - Convert the images to gray scale using opencv
 - Normalize/Transform the pixel values to the range [-1, 1] by subtracting 128 and then divide it by 128.
 
 Image after preprocessing
+
 ![Gray image](images/2_preprocessing.png)
 
-I got good results without data augmentation, so I decided not to use this I technique.
+I got good results without data augmentation (e.g. shifting, rotatation images, changing colors)  so I decided not to use this I technique.
 
-#### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+○ shifting images
+○ rotating images
+changing colors
+
+#### 2. Model architecture
+
+I decided to use [LeNet](http://yann.lecun.com/exdb/lenet/) model architecture provided by [Udacity](https://github.com/udacity/CarND-LeNet-Lab). This model was proved to work well in the recognition hand and print written character. It could be a good fit for the traffic sign classification (http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf).
+At first I modified the input depth to 3 (3 RGB channels) and set the output classes to 43 (43 labels in the traffic sign data set). I could not have more than 90% accuracy with my current dataset and 5 epochs.
+Increasing the epochs and making the convolution layer deeper, I got some performance issues on my MacBook without Nvidia GPU. I decided to create an AWS Instance and train my model here. Running my model on the AWS Instance (~6 sec) was about 45 times faster than on my MacBook without Nvidia GPU (~280sec)!
+
+
+After modifying the standard model work with color pictures, I could not have more than 90% accuracy with my current dataset and 15 epochs. To improve that, start making the first two convolution layer deeper, and then increase the size of the fully-connected layers as well. With these modifications, I got just above 90% accuracy. To go further, I added two dropout layers with 0.7 keep probability and increased the training epochs to 40. The final model is described as follows:
 
 My final model consisted of the following layers:
 
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+|Layer | Description|Output|
+|------|------------|------|
+|Input | RGB image| 32x32x3|
+|Convolutional Layer 1 | 1x1 strides, valid padding | 28x28x16|
+|RELU| | |
+|Max Pool| 2x2 | 14x14x16|
+|Convolutional Layer 2 | 1x1 strides, valid padding | 10x10x64|
+|RELU| | |
+|Max Pool | 2x2 | 5x5x64|
+|Fatten| To connect to fully-connected layers |
+|Fully-connected Layer 1| | 1600|
+|RELU| | |
+|Dropout| 0.5 keep probability ||
+|Fully-connected Layer 2| | 480
+|RELU| | |
+|Dropout| 0.5 keep probability||
+|Fully-connected Layer 3| | 43
  
 
 
-#### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+#### 3. Train, Validate and Test the Model
 
-To train the model, I used an ....
+To train the model, I started iterative increasing the epochs 10, 20, 30, 50. But increasing the epochs higher than 20 did not bring signifigant improvements, see the network accurary by epoch screenshots.
+Additionally I made the cnn deeper. At first factor 2 and finally 4 compared to the model architecture provided by [Udacity](https://github.com/udacity/CarND-LeNet-Lab).
+With this approach I got very good results more than 96% validation set accurary and nearly 100% training set accurary. The test set accuracy was higher than 95 %.
+To prevent overfitting and stabilze the network, I added the dropout regularization method (keep_prob = 0.5) to the 4 and 5th layer for the training phase.
 
-#### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
+I used the  [Adam](http://sebastianruder.com/optimizing-gradient-descent/index.html#adam) optimizer. Playing with increasing and decreasing the learning rate 0.001 and the batch size 128, I did not get better results.
+
+![Network accuracy by epoch training set](images/2_epoch_training_set.png)
+
+![Network accuracy by epoch validation set](images/2_epoch_training_set.png)
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of 100.0 %
+* validation set accuracy of 97,2 %
+* test set accuracy of 96,1 %
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
 
 ### Test a Model on New Images
 
