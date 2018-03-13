@@ -12,34 +12,36 @@ The goals / steps of this project are the following:
 * Summarize the results with a written report
 
 
-## Rubric Points
-### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
 
----
-### Writeup / README
 
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
 
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
+## Data Set Summary & Exploration
 
-### Data Set Summary & Exploration
+### Step 1: Dataset Summary & Exploration
 
-#### 1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
+#### 1. Basic Summary of the Data Set Using Python, Numpy and/or Pandas
 
 I used the pandas library to calculate summary statistics of the traffic
 signs data set:
 
-* The size of training set is ?
-* The size of the validation set is ?
-* The size of test set is ?
-* The shape of a traffic sign image is ?
-* The number of unique classes/labels in the data set is ?
+* The size of training set is  = 34799
+* The size of the validation set is = 4410
+* The size of test set is  = 12630
+* The shape of a traffic sign image is = (32, 32, 3)
+* The number of unique classes/labels in the data set is = 43
 
 #### 2. Include an exploratory visualization of the dataset.
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+Here is an exploratory visualization of the data set.
 
-![alt text][image1]
+Visualizations random set of images from the training set
+![random iimages from the training sett](images/1_test_dataset.png)
+
+Visualizations random set of images from the validation set
+![random iimages from the training sett](images/1_validation_dataset.png)
+
+Visualizations random set of images from the test set
+![random iimages from the training sett](images/1_test_dataset.png)
 
 ### Design and Test a Model Architecture
 
