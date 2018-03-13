@@ -108,7 +108,7 @@ My final model consisted of the following layers:
 
 |Layer | Description|Output|
 |------|------------|------|
-|Input | RGB image| 32x32x3|
+|Input | Grayscale/RGB image  32x32x3|
 |Convolutional Layer 1 | 1x1 strides, valid padding | 28x28x16|
 |RELU| | |
 |Max Pool| 2x2 | 14x14x16|
@@ -128,8 +128,11 @@ My final model consisted of the following layers:
 #### 3. Train, Validate and Test the Model
 
 To train the model, I started iterative increasing the epochs 10, 20, 30, 50. I detected increasing the epochs higher than 20 did not bring signifigant improvements, see the network accurary by epoch screenshots. So I've decided to concentrate on 20 epochs.
-Additionally I made the cnn deeper. At first factor 2 and finally 4 compared to the model architecture provided by [Udacity](https://github.com/udacity/CarND-LeNet-Lab). This has also bring so improvements, in average about 2 %.
+
+Additionally I made the cnn deeper. At first by factor 2 and finally 4 compared to the model architecture provided by [Udacity](https://github.com/udacity/CarND-LeNet-Lab). This has also bring so improvements, in average about 2 %.
+
 With this approach I got very good results more than 97% validation set accuracy and nearly 100% training set accuracy. The test set accuracy was higher than 96 %.
+
 To prevent overfitting and stabilze the network, I added the dropout regularization method (keep_prob = 0.5) to the 4 and 5th layer for the training phase.
 
 I used the  [Adam](http://sebastianruder.com/optimizing-gradient-descent/index.html#adam) optimizer. Playing with increasing and decreasing the learning rate 0.001 and the batch size 128, I did not get better results. Some of the results were much worse, eg. learning rate 0.01.
@@ -149,18 +152,14 @@ My final model results were:
 Here are five German traffic signs that I found on the web.
 
 I labeled the images with a prefix in the filename, eg. 13_Yield.png.
-The labels are numbers, from the [.csv file](data/signnames.csv) containing the mapping between the labels and a text name of the image.
+The labels are numbers, from the [.csv file](signnames.csv) containing the mapping between the labels and a text name of the image.
 
-![My images](images/3_myimages_dataset)
+![My images](images/3_myimages_dataset.png)
 
 The first image (Wild animal crossing) might be difficult to classify because it's not clearly identifiable. The other signs are clearly visible. I was very curious to see how my model works on it.
 
 The same preprocessing is applied to them:
-![My images gray](images/3_prepro_myimages_dataset)
-
-
-
-#### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+![My images gray](images/3_prepro_myimages_dataset.png)
 
 Here are the results of the prediction:
 
@@ -172,44 +171,39 @@ Probably the image quality is too good.
 Here are the top five softmax probabilities for them and their name values:
 
 Image: mytestimages/31_WildAnimalsCrossing.jpg
-Probabilities:
-**1.000 : 31 Wild animals crossing**
-0.000 : 21 Double curve
-0.000 : 25 Road work
-0.000 : 29 Bicycles crossing
-0.000 : 30 Beware of ice/snow
+- **1.000 : 31 Wild animals crossing**
+- 0.000 : 21 Double curve
+- 0.000 : 25 Road work
+- 0.000 : 29 Bicycles crossing
+- 0.000 : 30 Beware of ice/snow
 
 Image: mytestimages/14_Stop.jpg
-Probabilities:
-**1.000 : 14 Stop**
-0.000 : 34 Turn left ahead
-0.000 : 17 No entry
-0.000 : 38 Keep right
-0.000 : 33 Turn right ahead
+- **1.000 : 14 Stop**
+- 0.000 : 34 Turn left ahead
+- 0.000 : 17 No entry
+- 0.000 : 38 Keep right
+- 0.000 : 33 Turn right ahead
 
 Image: mytestimages/17_NoEntry.jpg
-Probabilities:
-**1.000 : 17 No entry**
-0.000 : 40 Roundabout mandatory
-0.000 : 9 No passing
-0.000 : 12 Priority road
-0.000 : 34 Turn left ahead
+- **1.000 : 17 No entry**
+- 0.000 : 40 Roundabout mandatory
+- 0.000 : 9 No passing
+- 0.000 : 12 Priority road
+- 0.000 : 34 Turn left ahead
 
 Image: mytestimages/38_KeepRight.jpg
-Probabilities:
-**1.000 : 38 Keep right**
-0.000 : 18 General caution
-0.000 : 20 Dangerous curve to the right
-0.000 : 25 Road work
-0.000 : 12 Priority road
+- **1.000 : 38 Keep right**
+- 0.000 : 18 General caution
+- 0.000 : 20 Dangerous curve to the right
+- 0.000 : 25 Road work
+- 0.000 : 12 Priority road
 
 Image: mytestimages/13_Yield.jpg
-Probabilities:
-**1.000 : 13 Yield**
-0.000 : 12 Priority road
-0.000 : 15 No vehicles
-0.000 : 41 End of no passing
-0.000 : 38 Keep right
+- **1.000 : 13 Yield**
+- 0.000 : 12 Priority road
+- 0.000 : 15 No vehicles
+- 0.000 : 41 End of no passing
+- 0.000 : 38 Keep right
 
 
 ### Step 4 (Optional): Visualize the Neural Network's State with Test Images
